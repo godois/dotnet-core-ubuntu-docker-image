@@ -37,9 +37,15 @@ RUN sudo apt-get --assume-yes install dotnet-dev-1.0.3
 ENV DOTNET_HOME=/opt/dotnet
 RUN mkdir -p $DOTNET_HOME
 
+
+ADD bin/entrypoint.sh $DOTNET_HOME/entrypoint.sh
+RUN chmod 755 $DOTNET_HOME/entrypoint.sh
+
 #Creating a specific user to run applications
 RUN groupadd -g 1000 dotnetapp \
   && useradd -d "$DOTNET_HOME" -u 1000 -g 1000 -s /sbin/nologin dotnetapp
+
+RUN chown -R dotnetapp:dotnetapp $DOTNET_HOME
 
 # Change to the .Net user
 USER dotnetapp
@@ -47,3 +53,4 @@ USER dotnetapp
 # Changing the workdir
 WORKDIR "$DOTNET_HOME"
 
+ENTRYPOINT ["/opt/dotnet/entrypoint.sh"]
