@@ -1,3 +1,35 @@
 
 
-docker build -t godois/aspnet-core-ubuntu:1.0 .
+docker kill (docker ps -a -q); docker rm (docker ps -a -q)
+
+
+docker build -t godois/dotnet-core-ubuntu:1.0 .
+
+
+docker run -d -it \
+    --name simple-dotnet-app \
+    --hostname="dotnet.example.com" \
+    godois/dotnet-core-ubuntu:1.0;docker exec -i -t simple-dotnet-app /bin/bash
+
+
+docker run -d -it \
+    --name simple-dotnet-app \
+    --hostname="dotnet.example.com" \
+    godois/dotnet-core-ubuntu:1.0;docker logs simple-dotnet-app
+
+docker exec -i -t simple-dotnet-app /bin/bash
+
+docker logs simple-dotnet-app
+
+
+docker push godois/dotnet-core-ubuntu
+
+
+dotnet restore /Users/marciogodoi/go/src/projects/HelloWorldWebApi/HelloWorldWebApi
+
+dotnet run --project /Users/marciogodoi/go/src/projects/HelloWorldWebApi/HelloWorldWebApi/HelloWorldWebApi.csproj
+
+
+ll /Users/marciogodoi/go/src/projects/HelloWorldWebApi/HelloWorldWebApi/HelloWorldWebApi.csproj
+
+cd /Users/marciogodoi/go/src/projects/HelloWorldWebApi/
