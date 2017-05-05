@@ -5,19 +5,26 @@ docker kill (docker ps -a -q); docker rm (docker ps -a -q)
 
 docker build -t godois/dotnet-core-ubuntu:1.0 .
 
+docker run -d -it \
+    --name simple-dotnet-app \
+    -v /Users/marciogodoi/go/src/github.com/godois/hw-webapi:/tmp \
+    -p 5000:5000 \
+    godois/dotnet-core-ubuntu:1.0; docker exec -i -t simple-dotnet-app /bin/bash
 
 docker run -d -it \
     --name simple-dotnet-app \
-    --hostname="dotnet.example.com" \
-    godois/dotnet-core-ubuntu:1.0;docker exec -i -t simple-dotnet-app /bin/bash
-
+    -p 192.168.15.23:5000:5000 \
+    -p 192.168.15.23:55487:55487 \
+    -v /Users/marciogodoi/go/src/github.com/godois/hw-webapi:/tmp \
+    godois/dotnet-core-ubuntu:1.0; docker exec -i -t simple-dotnet-app /bin/bash
 
 docker run -d -it \
     --name simple-dotnet-app \
-    --hostname="dotnet.example.com" \
-    godois/dotnet-core-ubuntu:1.0;docker logs simple-dotnet-app
+    --publish-all=true \
+    --expose 5000 \
+    -v /Users/marciogodoi/go/src/github.com/godois/hw-webapi:/tmp \
+    godois/dotnet-core-ubuntu:1.0; docker exec -i -t simple-dotnet-app /bin/bash
 
-docker exec -i -t simple-dotnet-app /bin/bash
 
 docker logs simple-dotnet-app
 
@@ -33,3 +40,8 @@ dotnet run --project /Users/marciogodoi/go/src/projects/HelloWorldWebApi/HelloWo
 ll /Users/marciogodoi/go/src/projects/HelloWorldWebApi/HelloWorldWebApi/HelloWorldWebApi.csproj
 
 cd /Users/marciogodoi/go/src/projects/HelloWorldWebApi/
+
+-v /tmp/mongodb-master/data:/opt/mongodb/data \
+
+dotnet restore
+dotnet publish --framework netcoreapp1.1 --runtime ubuntu.14.04-x64
