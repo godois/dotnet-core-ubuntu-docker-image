@@ -25,6 +25,7 @@ RUN apt-get update && \
 	netcat \
 	software-properties-common \
 	telnet \
+	git \
 	apt-transport-https
 
 # Install .NET Core Package
@@ -53,6 +54,8 @@ USER dotnetapp
 
 # Changing the workdir
 WORKDIR "$DOTNET_HOME"
+
+EXPOSE 5000
 
 #Entrypoint file
 ENTRYPOINT ["/opt/dotnet/entrypoint.sh"]
