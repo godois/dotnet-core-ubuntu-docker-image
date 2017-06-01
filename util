@@ -1,15 +1,31 @@
 
 
-docker kill (docker ps -a -q); docker rm (docker ps -a -q)
+docker kill $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
 
-docker build -t godois/dotnet-core-ubuntu:1.0 .
+docker build -t godois/dotnet-core-ubuntu .
+
+docker run -d -it \
+    --name simple-dotnet-app \
+    godois/dotnet-core-ubuntu:latest;
+
+docker run -d -it \
+    --name simple-dotnet-app \
+    -v /home/marcio/Documents/hw-webapi:/tmp \
+    -p 5000:5000 \
+    godois/dotnet-core-ubuntu:latest;
+
+    docker exec -i -t simple-dotnet-app /bin/bash
+
+dotnet restore /tmp/HelloWorldWebApi
+
+dotnet run --project /tmp/HelloWorldWebApi/HelloWorldWebApi.csproj
 
 docker run -d -it \
     --name simple-dotnet-app \
     -v /Users/marciogodoi/go/src/github.com/godois/hw-webapi:/tmp \
     -p 5000:5000 \
-    godois/dotnet-core-ubuntu:1.0; docker exec -i -t simple-dotnet-app /bin/bash
+    godois/dotnet-core-ubuntu:latest; docker exec -i -t simple-dotnet-app /bin/bash
 
 docker run -d -it \
     --name simple-dotnet-app \
